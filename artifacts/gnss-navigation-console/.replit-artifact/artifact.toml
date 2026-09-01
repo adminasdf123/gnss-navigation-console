@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "GNSS Navigation Recovery Console"
+description = "A premium engineering dashboard for monitoring synthetic GNSS navigation, outage recovery, trust evaluation, adaptive sensor fusion, telemetry, synchronized analysis charts, and navigation pipeline state."
+version = "1.0.0"
+id = "artifacts/gnss-navigation-console"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 20694
+
+[services.development]
+run = "pnpm --filter @workspace/gnss-navigation-console run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/gnss-navigation-console", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/gnss-navigation-console/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "20694"
+BASE_PATH = "/"
